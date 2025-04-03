@@ -1,0 +1,101 @@
+@import "../../variables.scss";
+
+.yearPicker {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 120px;
+  @media screen and (max-width: $medium) {
+    flex: 1;
+  }
+}
+
+.yearPicker__button {
+  padding: 10px;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  background-color: white;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @media screen and (max-width: $medium) {
+    width: 100%;
+  }
+}
+.yearPickerOpen {
+  border-color: $button-color;
+  border-bottom: 1px solid white;
+  border-radius: $border-radius $border-radius 0 0;
+}
+.yearPicker__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid $border-color;
+  border-radius: 0 0 $border-radius $border-radius;
+  background-color: white;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0 10px;
+  border: 1px solid $button-color;
+  z-index: 10;
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $scrollbar-thumb-color;
+    border-radius: 4px;
+    border: 2px solid $scrollbar-border-color;
+    background-clip: padding-box;
+    transition: background-color 0.3s;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: $scrollbar-thumb-hover-color;
+  }
+}
+
+.yearPicker__option {
+  padding: 10px 0px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $hover-color;
+  }
+}
+
+.yearPicker__label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: $mute-color;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  font-size: 14px;
+}
+
+.yearPicker__label.float {
+  top: -10px;
+  left: 10px;
+  font-size: 12px;
+  color: $mute-color;
+}
+
+.yearPicker__icon {
+  font-size: 1.2rem;
+  color: $mute-color;
+  transition: transform 0.3s ease;
+}
+
+.yearPicker__icon.rotate {
+  transform: rotate(180deg);
+}

@@ -1,0 +1,75 @@
+@import "../../variables.scss";
+
+.search-input-area {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+
+  .input-container {
+    position: relative;
+    flex: 1;
+
+    .input {
+      border: 1px solid $border-color;
+      border-radius: $border-radius;
+      padding: 0 10px;
+      width: 100%;
+      height: 40px;
+      font-size: 14px;
+
+      &:focus {
+        outline: none;
+        border-color: $button-color;
+      }
+
+      &:focus ~ .floating-label,
+      &.float ~ .floating-label {
+        top: -15px;
+        font-size: 12px;
+        color: $button-color;
+      }
+
+      @media screen and (max-width: $medium) {
+        display: inline-block;
+        border-radius: $border-radius 0 0 $border-radius;
+      }
+    }
+
+    .floating-label {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      font-size: 14px;
+      color: $mute-color;
+      pointer-events: none;
+      transition: all 0.3s ease;
+
+      &.float {
+        top: -15px;
+        font-size: 12px;
+        color: $mute-color;
+      }
+    }
+  }
+
+  .search-button {
+    height: 40px;
+    aspect-ratio: 1;
+    background-color: $button-color;
+    color: $white-100;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    display: none;
+
+    &:hover {
+      background-color: darken($button-color, 10%);
+    }
+
+    @media screen and (max-width: $medium) {
+      display: inline-block;
+      border-radius: 0 $border-radius $border-radius 0;
+    }
+  }
+}

@@ -1,0 +1,84 @@
+@import "../../variables.scss";
+
+.customSelectBox {
+  position: relative;
+  display: inline-block;
+  @media screen and (max-width: $medium) {
+    flex: 1;
+  }
+}
+
+.customSelectBox__button {
+  padding: 10px 15px;
+  background-color: $white-100;
+  border: 1px solid $border-color;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px;
+  border-radius: $border-radius;
+  height: 40px;
+  @media screen and (max-width: $medium) {
+    width: 100%;
+  }
+}
+
+.customSelectBox__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 5px;
+  border: 1px solid $button-color;
+  background-color: $white-100;
+  width: 100%;
+  z-index: 10;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 0 0 $border-radius $border-radius;
+  z-index: 10;
+}
+.customSelectBoxOpen {
+  border: 1px solid $button-color;
+  border-bottom: 1px solid $white-100;
+  border-radius: $border-radius $border-radius 0 0;
+}
+
+.customSelectBox__option {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.customSelectBox__option:hover {
+  background-color: $white-200;
+}
+
+.customSelectBox__label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: $mute-color;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  font-size: 14px;
+}
+
+.customSelectBox__label.float {
+  top: -10px;
+  left: 10px;
+  font-size: 12px;
+  color: $mute-color;
+}
+
+.customSelectBox__icon {
+  font-size: 1.2rem;
+  color: $mute-color;
+  transition: transform 0.3s ease;
+}
+
+.customSelectBox__icon.rotate {
+  transform: rotate(180deg);
+}
