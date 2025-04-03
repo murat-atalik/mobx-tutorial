@@ -1,4 +1,4 @@
-import { makeAutoObservable, reaction } from "mobx";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { AsyncTask, Dictionary, generateSearchKey } from "../utils";
 import { SearchOptionsType, searchResponseType } from "../network";
 import { detailStore } from "./detailStore";
@@ -29,44 +29,53 @@ class SearchStore {
 
   searchRequested(options: SearchOptionsType) {
     const key = generateSearchKey(options);
-    this.searchList[key] = {
-      data: {
-        error: undefined,
-        isInit: true,
-        isLoading: true,
-        result: undefined,
-      },
-      options: options,
-    };
-    this.lastSearchKey = key;
+
+    runInAction(() => {
+      this.searchList[key] = {
+        data: {
+          error: undefined,
+          isInit: true,
+          isLoading: true,
+          result: undefined,
+        },
+        options: options,
+      };
+      this.lastSearchKey = key;
+    });
   }
 
   searchSuccess(options: SearchOptionsType, data: searchResponseType) {
     const key = generateSearchKey(options);
-    this.searchList[key] = {
-      data: {
-        error: undefined,
-        isLoading: false,
-        isInit: true,
-        result: data,
-      },
-      options: options,
-    };
-    this.lastSearchKey = key;
+
+    runInAction(() => {
+      this.searchList[key] = {
+        data: {
+          error: undefined,
+          isLoading: false,
+          isInit: true,
+          result: data,
+        },
+        options: options,
+      };
+      this.lastSearchKey = key;
+    });
   }
 
   searchFailed(options: SearchOptionsType, error: Error) {
     const key = generateSearchKey(options);
-    this.searchList[key] = {
-      data: {
-        error: error.message,
-        isInit: true,
-        isLoading: false,
-        result: undefined,
-      },
-      options: options,
-    };
-    this.lastSearchKey = key;
+
+    runInAction(() => {
+      this.searchList[key] = {
+        data: {
+          error: error.message,
+          isLoading: false,
+          isInit: true,
+          result: undefined,
+        },
+        options: options,
+      };
+      this.lastSearchKey = key;
+    });
   }
 }
 

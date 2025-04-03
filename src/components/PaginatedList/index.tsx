@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { MovieCard } from "../MovieCard";
 import { useSearchChangePage } from "../../hooks/useSearchChangePage";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
@@ -6,19 +6,18 @@ import { SkeletonLoader } from "./SkeletonPaginatedList";
 import { ErrorItem } from "../ErrorItem";
 import "./paginatedList.scss";
 import { useMobxStore } from "../../mobx";
+import { observer } from "mobx-react";
 
-export const PaginatedList = () => {
+export const PaginatedList = observer(() => {
   const { searchStore } = useMobxStore();
   const { changePage } = useSearchChangePage();
   const searchKey = searchStore.lastSearchKey;
   const currentPage =
     searchStore.searchList?.[searchKey ?? "-"]?.options.page ?? 1;
-  useEffect(() => {
-    console.log("test", JSON.parse(JSON.stringify(searchStore)));
-  }, [searchStore]);
 
   const movies =
     searchStore.searchList?.[searchKey ?? "-"]?.data.result?.Search ?? [];
+
   const totalResults =
     searchStore.searchList?.[searchKey ?? "-"]?.data.result?.totalResults ??
     "0";
@@ -109,10 +108,8 @@ export const PaginatedList = () => {
     isLoading,
     movies.length,
   ]);
-  console.log("movies", searchKey, movies);
   return (
     <>
-      {searchKey}
       {isLoading ? (
         <SkeletonLoader />
       ) : error ? (
@@ -129,4 +126,4 @@ export const PaginatedList = () => {
       )}
     </>
   );
-};
+});
