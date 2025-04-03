@@ -1,28 +1,24 @@
 import { useCallback } from "react";
 import { getMovie } from "../network";
-import { detailSliceActions } from "../store/reducers";
-import { useAppDispatch } from "./storeHooks";
+import { useMobxStore } from "../mobx";
 
 export const useGetMovie = () => {
-  const dispatch = useAppDispatch();
-
+  const { detailStore } = useMobxStore();
   const fetchData = useCallback(
     async (id?: string) => {
       if (id === undefined) {
         return;
       }
-      dispatch(detailSliceActions.detail_requested(id));
+      detailStore.detailRequested(id);
       getMovie(id ?? "")
         .then((data) => {
-          dispatch(detailSliceActions.detail_success({ id, data }));
+          detailStore.detailSuccess(id, data);
         })
         .catch((error) => {
-          dispatch(
-            detailSliceActions.detail_failed({ id, error: error.message })
-          );
+          detailStore.detailFailed(id, error.message);
         });
     },
-    [dispatch]
+    [detailStore]
   );
 
   return { fetchData };

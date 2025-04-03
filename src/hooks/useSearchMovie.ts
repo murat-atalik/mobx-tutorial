@@ -1,21 +1,17 @@
 import { useCallback, useMemo, useState } from "react";
-import { searchSlicerActions } from "../store/reducers";
-import { useAppDispatch, useAppSelector } from "./storeHooks";
 import { eOMDBType, searchMovies, SearchOptionsType } from "../network";
 import { generateSearchKey } from "../utils";
-import { shallowEqual } from "react-redux";
+import { useMobxStore } from "../mobx";
 
 export const useSearchMovie = () => {
-  const dispatch = useAppDispatch();
-  const lastSearchKey = useAppSelector(
-    (state) => state.search.lastSearchKey,
-    shallowEqual
-  );
+  const { searchStore } = useMobxStore();
 
-  const lastOptions = useAppSelector((state) => {
-    const options = state.search.searchList[lastSearchKey ?? "-"]?.options;
-    return { searchTerm: "", ...options } as SearchOptionsType;
-  }, shallowEqual);
+  const lastSearchKey = searchStore.lastSearchKey;
+
+  const lastOptions = {
+    searchTerm: "",
+    ...searchStore.searchList[lastSearchKey ?? "-"]?.options,
+  };
   const [options, setOptions] = useState<SearchOptionsType>({
     ...lastOptions,
   });
@@ -54,21 +50,17 @@ export const useSearchMovie = () => {
     async (fields?: SearchOptionsType) => {
       const _options = { ...(fields || options), page: 1 };
       if (_options.searchTerm?.trim().length > 0) {
-        dispatch(searchSlicerActions.search_requested(_options));
+        searchStore.searchRequested(_options);
 
         try {
           const data = await searchMovies(_options);
-          dispatch(
-            searchSlicerActions.search_success({ data, options: _options })
-          );
+          searchStore.searchSuccess(_options, data);
         } catch (error: Error | any) {
-          dispatch(
-            searchSlicerActions.search_failed({ error, options: _options })
-          );
+          searchStore.searchSuccess(_options, error);
         }
       }
     },
-    [dispatch, options]
+    [options, searchStore]
   );
 
   const searchKey = useMemo(() => {

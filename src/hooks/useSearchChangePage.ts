@@ -1,19 +1,11 @@
 import { useCallback } from "react";
-import { searchSlicerActions } from "../store/reducers";
-import { useAppDispatch, useAppSelector } from "./storeHooks";
 import { searchMovies } from "../network";
-import { shallowEqual } from "react-redux";
+import { useMobxStore } from "../mobx";
 
 export const useSearchChangePage = () => {
-  const dispatch = useAppDispatch();
-  const key = useAppSelector(
-    (state) => state.search.lastSearchKey,
-    shallowEqual
-  );
-  const options = useAppSelector(
-    (state) => state.search.searchList[key ?? "-"]?.options,
-    shallowEqual
-  );
+  const { searchStore } = useMobxStore();
+  const key = searchStore.lastSearchKey;
+  const options = searchStore.searchList[key ?? "-"]?.options;
 
   const changePage = useCallback(
     async (page: number) => {
@@ -22,21 +14,17 @@ export const useSearchChangePage = () => {
       }
       const _options = { ...options, page };
       if (_options?.searchTerm?.trim().length > 0) {
-        dispatch(searchSlicerActions.search_requested(_options));
+        searchStore.searchRequested(_options);
 
         try {
           const data = await searchMovies(_options);
-          dispatch(
-            searchSlicerActions.search_success({ data, options: _options })
-          );
+          searchStore.searchSuccess(_options, data);
         } catch (error: Error | any) {
-          dispatch(
-            searchSlicerActions.search_failed({ error, options: _options })
-          );
+          searchStore.searchFailed(error, error);
         }
       }
     },
-    [dispatch, options]
+    [options, searchStore]
   );
 
   return {

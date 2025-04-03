@@ -1,38 +1,31 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { MovieCard } from "../MovieCard";
-import { useAppSelector } from "../../hooks";
-import { shallowEqual } from "react-redux";
 import { useSearchChangePage } from "../../hooks/useSearchChangePage";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { SkeletonLoader } from "./SkeletonPaginatedList";
 import { ErrorItem } from "../ErrorItem";
 import "./paginatedList.scss";
+import { useMobxStore } from "../../mobx";
 
 export const PaginatedList = () => {
+  const { searchStore } = useMobxStore();
   const { changePage } = useSearchChangePage();
-  const searchKey = useAppSelector(
-    (s) => s.search?.lastSearchKey,
-    shallowEqual
-  );
-  const currentPage = useAppSelector(
-    (s) => s.search.searchList?.[searchKey ?? "-"]?.options.page ?? 1
-  );
+  const searchKey = searchStore.lastSearchKey;
+  const currentPage =
+    searchStore.searchList?.[searchKey ?? "-"]?.options.page ?? 1;
+  useEffect(() => {
+    console.log("test", JSON.parse(JSON.stringify(searchStore)));
+  }, [searchStore]);
 
-  const movies = useAppSelector(
-    (s) => s.search.searchList?.[searchKey ?? "-"]?.data.result?.Search ?? [],
-    shallowEqual
-  );
-  const totalResults = useAppSelector(
-    (s) =>
-      s.search.searchList?.[searchKey ?? "-"]?.data.result?.totalResults ?? "0",
-    shallowEqual
-  );
+  const movies =
+    searchStore.searchList?.[searchKey ?? "-"]?.data.result?.Search ?? [];
+  const totalResults =
+    searchStore.searchList?.[searchKey ?? "-"]?.data.result?.totalResults ??
+    "0";
   const totalPages = Math.ceil(parseInt(totalResults) / 10);
 
-  const { error, isLoading } = useAppSelector(
-    (s) => s.search.searchList?.[searchKey ?? "-"]?.data ?? {},
-    shallowEqual
-  );
+  const { error, isLoading } =
+    searchStore.searchList?.[searchKey ?? "-"]?.data ?? {};
 
   const handlePageChange = useCallback(
     (page: number) => {
@@ -44,9 +37,9 @@ export const PaginatedList = () => {
   const renderPageNumbers = useMemo(() => {
     if (isLoading || movies.length === 0) return [];
 
-    let pageNumbers = [];
-    let start = Math.max(currentPage - 2, 1);
-    let end = Math.min(currentPage + 2, totalPages);
+    const pageNumbers = [];
+    const start = Math.max(currentPage - 2, 1);
+    const end = Math.min(currentPage + 2, totalPages);
 
     if (currentPage > 3) {
       pageNumbers.push(1);
@@ -116,9 +109,10 @@ export const PaginatedList = () => {
     isLoading,
     movies.length,
   ]);
-
+  console.log("movies", searchKey, movies);
   return (
     <>
+      {searchKey}
       {isLoading ? (
         <SkeletonLoader />
       ) : error ? (

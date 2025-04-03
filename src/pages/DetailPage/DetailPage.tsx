@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect } from "react";
 import { useParams } from "react-router";
-import { useAppSelector } from "../../hooks";
 import { useGetMovie } from "../../hooks/useGetMovie";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "./detailPage.scss";
@@ -17,6 +16,8 @@ import {
 import { BsCameraReelsFill } from "react-icons/bs";
 import { ErrorItem } from "../../components";
 import { DetailResponse } from "../../network";
+import { observer } from "mobx-react";
+import { useMobxStore } from "../../mobx";
 
 type omittedDetailKeys = Omit<DetailResponse, "Ratings">;
 
@@ -61,20 +62,18 @@ const renderConditionalText = (props: renderConditionalTextType) => {
   return null;
 };
 
-export const DetailPage = () => {
+export const DetailPage = observer(() => {
   const { id } = useParams();
   const { fetchData } = useGetMovie();
+  const { detailStore } = useMobxStore();
 
-  const isLoading = useAppSelector(
-    (state) => state.detail[id ?? "-"]?.isLoading ?? false
-  );
-  const isInit = useAppSelector(
-    (state) => state.detail[id ?? "-"]?.isInit ?? false
-  );
-  const error = useAppSelector(
-    (state) => state.detail[id ?? "-"]?.error ?? false
-  );
-  const result = useAppSelector((state) => state.detail[id ?? "-"]?.result);
+  const isLoading = detailStore.details[id ?? "-"]?.isLoading ?? false;
+
+  const isInit = detailStore.details[id ?? "-"]?.isInit ?? false;
+
+  const error = detailStore.details[id ?? "-"]?.error ?? false;
+
+  const result = detailStore.details[id ?? "-"]?.result;
 
   useEffect(() => {
     if (!isInit && !isLoading && !error) {
@@ -227,4 +226,4 @@ export const DetailPage = () => {
       </div>
     </div>
   );
-};
+});

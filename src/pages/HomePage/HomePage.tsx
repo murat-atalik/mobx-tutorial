@@ -2,8 +2,11 @@ import { PaginatedList, SearchField } from "../../components";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import image from "../../assets/backgrounds/detail.png";
 import "./homePage.scss";
+import { Link } from "react-router";
+import { observer } from "mobx-react";
+import { counterStore } from "../../mobx/counterStore";
 
-export const HomePage = () => {
+export const HomePage = observer(() => {
   return (
     <div className="homepage">
       <div className="homepage__header">
@@ -20,7 +23,8 @@ export const HomePage = () => {
           <SearchField />
         </div>
       </div>
+      <Link to={`/counter`}>counter {counterStore.count}</Link>
       <PaginatedList />
     </div>
   );
-};
+});
