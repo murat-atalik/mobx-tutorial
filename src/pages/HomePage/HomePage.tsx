@@ -1,6 +1,6 @@
 import { PaginatedList, SearchField } from "../../components";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import image from "../../assets/backgrounds/back.png";
+import image from "../../assets/backgrounds/detail.png";
 import "./homePage.scss";
 
 export const HomePage = () => {

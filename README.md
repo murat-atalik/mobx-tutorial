@@ -5,7 +5,7 @@ A Single Page Application (SPA) developed using React for listing and viewing de
 ## Features
 
 - **Movie Listing**: Displays movies in a grid/table format with columns for name, release date, and IMDb ID.
-- **Search**: Search movies by name, with "Pokemon" as the default search.
+- **Search**: Search movies by name, with "lord" as the default search.
 - **Pagination**: Displays 10 movies per page.
 - **Year Filter**: Filter movies by release year.
 - **Type Filter**: Filter by movies, TV series, or TV episodes.

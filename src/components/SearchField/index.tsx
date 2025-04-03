@@ -19,8 +19,8 @@ export const SearchField = () => {
 
   useEffect(() => {
     if (lastSearchKey === "") {
-      changeSearchTerm("pokemon");
-      handleSearch({ searchTerm: "pokemon", page: 1 });
+      changeSearchTerm("lord");
+      handleSearch({ searchTerm: "lord", page: 1 });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastSearchKey]);
