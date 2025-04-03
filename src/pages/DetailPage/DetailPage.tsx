@@ -16,7 +16,7 @@ import {
 import { BsCameraReelsFill } from "react-icons/bs";
 import { ErrorItem } from "../../components";
 import { DetailResponse } from "../../network";
-import { observer } from "mobx-react";
+import { observer } from "mobx-react-lite";
 import { useMobxStore } from "../../mobx";
 
 type omittedDetailKeys = Omit<DetailResponse, "Ratings">;

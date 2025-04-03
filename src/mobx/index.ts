@@ -15,7 +15,7 @@ injectStores({
   detailStore: rootStore.detailStore,
 });
 
-const StoreContext = createContext(rootStore);
+export const StoreContext = createContext(rootStore);
 
 export const useMobxStore = () => useContext(StoreContext);
 

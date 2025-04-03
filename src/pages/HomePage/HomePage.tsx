@@ -2,7 +2,7 @@ import { PaginatedList, SearchField } from "../../components";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import image from "../../assets/backgrounds/detail.png";
 import "./homePage.scss";
-import { observer } from "mobx-react";
+import { observer } from "mobx-react-lite";
 
 export const HomePage = observer(() => {
   return (
