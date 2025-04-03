@@ -18,7 +18,6 @@ export const SearchField = () => {
   } = useSearchMovie();
 
   useEffect(() => {
-    console.log("lastSearchKey", lastSearchKey);
     if (lastSearchKey === "") {
       changeSearchTerm("lord");
       handleSearch({ searchTerm: "lord", page: 1 });
